@@ -1,4 +1,5 @@
-#空间索引
+空间索引
+===
 索引我们都用过，它是一种特殊的存储结构，就像图书馆里书的分类存放策略或是现代化图书馆里的图书查询系统，能帮助我们快速找到自己需要的书。
 数据库中，索引的存储一般使用 B树 或 B+树 来实现，通过二分法来查找法来快速定位到数据位置。
 
@@ -15,12 +16,16 @@
 组内准备切换 poi 数据的存储数据库，花了一周时间安装配置各种数据库来测试空间索引的效率，测试了 Redis, Mongo, PostgreSQL, Mysql 这几个知名的支持空间索引的数据库，技术选型基本完毕，可是中间踩过的坑和配置经验不能丢，详情如下：
 
 -----
-#Redis
-###介绍
+Redis
+===
+介绍
+---
 redis，一个功能强大、效率极高的缓存数据库（或许已经不仅仅是缓存数据库了），已经成为类似于关系存储型数据库在各个项目中不可或缺的组件了。首先考虑它是因为它的效率有保障，而且项目中几乎必备，运维代价很低。Redis 的 空间索引采用 GeoHash 原理，配合集合存储，查询效率接近 log(N)。
 
 Redis 3.0 以上版本支持空间索引，新项目不必考虑这些，而一般的老项目可能就需要升级 Redis 了，另外 PHP 中可能还要升级 Redis 的扩展，以支持 Redis 的空间索引函数。
-###使用
+
+使用
+---
 Redis 的安装配置这里就不再多提了，这里简单地介绍一下 Redis 的 GEO 系列函数。
 
 
@@ -32,7 +37,8 @@ Redis 的安装配置这里就不再多提了，这里简单地介绍一下 Redi
 	GEORADIUS 查询集合内 以目标点为圆心，半径为radius的圆内 的元素。其 php 函数原型为 `georadius($key, $lon, $lat, $radius, $unit, $options)`;
 	其 $options 类似于 `array('count' => $count, 'WITHDIST' ...);`
 
-###结论
+结论
+---
 Redis 确实效率高，使用方便，但有一个无法克服的问题，即无法实现多条件查询。仅仅查询附近的点，Redis 是无懈可击，但是如果需求是查询附近的饭店呢？或是需求查询附近的 '万达' 呢？ 
 
 不是不可以实现：
@@ -49,8 +55,10 @@ Redis 确实效率高，使用方便，但有一个无法克服的问题，即�
 
 
 -----
-#MongoDB
-###介绍
+MongoDB
+===
+介绍
+---
 
 MongoDB 是老牌的支持空间索引的数据库，作为一个文档型数据库，它在存储日志或静态数据时效果不错。 它提供两种类型的空间索引：
 
@@ -59,7 +67,8 @@ MongoDB 是老牌的支持空间索引的数据库，作为一个文档型数据
 
 2d 索引 和2dsphere 索引都是使用 GeoHash 算法用 B+ 树来实现。
 
-###使用
+使用
+---
 
 Mongo 创建空间索引的方法很简单：`db.collection.createIndex( { field : "2dsphere" } );`。
 
@@ -95,7 +104,8 @@ Mongo 的使用需要注意如下：
 ```
 - Mongo在查询返回距离时需要使用 runCommand 命令，其语法类似于 `db.runCommand({"geoNear":"collection", "near":[lon, lat], "num":count, query:{other condition}})`;
 
-###结论
+结论
+---
 mongo 的空间索引还是比较灵活的，GeoJSON 对象有点、线、多边形、多条线段、多点、多个多边形。支持 包含、相交、临近的查询，同时它也解决了 Redis 的多条件查询问题。
 
 但是测试发现，mongo 有以下问题：
@@ -110,13 +120,16 @@ mongo 的空间索引还是比较灵活的，GeoJSON 对象有点、线、多边
 
 
 -----
-#PostgreSQL
-###介绍
+PostgreSQL
+===
+介绍
+---
 postgreSQL 是一个知名的关系型数据库，构建在其上的空间对象扩展模块 PostGIS 使得其成为一个真正的大型空间数据库。它通过 R树 或 GIST 树索引来实现共空间索引，查询效率极高。同时它对分词模糊查询支持很好，也能解决以地点名查询的需求。
 
 >PostGIS 是一个开源程序，它为对象－关系型数据库PostgreSQL提供了存储空间地理数据的支持，使 PostgreSQL 成为了一个空间数据库，能够进行空间数据管理、数量测量与几何拓扑分析。PostGIS 实现了 Open Geospatial Consortium 所提出的基本要素类（点、线、面、多点、多线、多面等）的 SQL 实现参考。
 
-###使用
+使用
+---
 postgreSQL 的使用，对比其他数据库来说，较繁琐。
 
 1. 要使用 postgreSQL 的空间索引，需要安装 postgis，由于它依赖多而复杂，能使用 yum，apt-get，homebrew 等工具的优先使用；
@@ -148,7 +161,8 @@ order by dist ASC limit 200;
 - 使用 `\timing on` 和 `\timing off`来切换是否显示命令执行时间；
 
 
-###结论
+结论
+---
 postgreSQL 对空间查询的支持非常灵活，足以支持多种复杂的空间查询，PostGIS 能计算不同投影坐标系下的真实空间距离，且查询效率极高，在大量数据时也不会像 mongo 一样性能急剧下降。
 
 同时它关系型数据库的特性支持我们进行多条件查询，最后它也可以使用 `zhparser` 扩展来进行中文分词，以支持对地点名模糊查询。
@@ -163,12 +177,16 @@ postgreSQL 对空间查询的支持非常灵活，足以支持多种复杂的空
 [postgis - 函数介绍](https://postgis.net/docs/using_postgis_dbmanagement.html#PostGIS_Geography)
 
 -----
-#MySQL
-###介绍
+MySQL
+===
+介绍
+---
 Mysql 的重要性和强大不必多言，它的存储引擎 MyISAM 很早就支持空间索引。而 InnoDB 则在5.7.4 labs版本中才添加对空间索引的支持。
 
 它们都是通过 R 树来实现空间索引。
-###使用
+
+使用
+---
 Mysql 中空间索引使用时要注意：
 
 - 对空间索引的字段首先要设置为`field geometry NOT NULL`；
@@ -189,7 +207,8 @@ WHERE ST_Contains( ST_MakeEnvelope(
 ORDER BY dist LIMIT 10
 ```
 
-###结论
+结论
+---
 由于 Innodb 的功能比 MyISAM 强大太多，且事务、行锁、B+树索引等功能的不可替代性，这里不再讨论 MyISAM。
 
 Mysql 的空间索引查询效率不低。作为传统的关系型数据库，其多条件支持、分词也都被很好地支持。
@@ -199,7 +218,8 @@ Mysql 的空间索引查询效率不低。作为传统的关系型数据库，�
 参考：[MySQL Blog - mysql对GIS空间数据的支持](http://mysqlserverteam.com/mysql-5-7-and-gis-an-example/)
 
 -----
-#总结
+总结
+===
 
 我以 126万 poi 数据进行了测试，查询范围 3km 内的点（最多取200条）。
 系统信息： macos10.12 (x86_64)； 内核： 2 GHz Intel Core i5； 内存： 8 GB 1867 MHz LPDDR3；

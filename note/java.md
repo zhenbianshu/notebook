@@ -1,4 +1,5 @@
-﻿###线程同步
+﻿线程同步
+---
 - synchronized 关键字
 ```
 function(){
@@ -18,7 +19,8 @@ public synchronized static void function(){}
 ```
 
 
-###对象包装器
+对象包装器
+---
 ArrayList里只能存放 Object 对象，而基本类型不是对象，所以需要包装器
 Integer,Long,Float,Double,Short,Byte,Character,Void,Boolean分别包装一些基本数据类型。
 但需要注意：
@@ -28,7 +30,8 @@ Integer,Long,Float,Double,Short,Byte,Character,Void,Boolean分别包装一些基
 - 包装器在混用时，自动拆箱和装箱时也会像类型自动转换一样，转换为范围更大的类型
 - 由于包装器是对象类型，所以使用 equals 方法时要小心空指针异常
 
-###动态实例化对象
+动态实例化对象
+---
 ```
 Class cls = Class.forName(m.getClass().getName()); // 使用forName获取类对象
 Class[] params = {String.class, Integer.TYPE}; // 创建一个构造函数方法所需要的类型对象数组

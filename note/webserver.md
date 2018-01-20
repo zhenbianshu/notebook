@@ -1,4 +1,5 @@
-﻿###tips
+﻿tips
+---
 nginx 可配置CPU亲合力，将其核心数与其工作进程数搭配，以达到效率的最大优化；
 如：
 ```
@@ -8,7 +9,8 @@ worker_cpu_affinity 00000001 00000010 00000100 00001000 00010000 00100000 010000
 - nginx配置中使用 try_files A B C 来依次尝试文件，以替代if 语句
 - 在url重写中，使用 `$request_uri` 来代替 `^(.*)$` 作为请求行
 
-###配置：
+配置：
+---
 - Fast CGI(Fast Common Gateway Interface):是普通CGI的升级版本，普通CGI是在请求来时服务器临时FORK一下进程加载环境变量等，然后解释脚本执行，然后将标准错误和标准输出返回给服务器，此进程关闭，这样每次有请求临时FORK一个进程会造成大量的内存浪费。
 Fast CGI是在服务器开启时初始化几个CGI解释器，在像普通CGI处理完请求后，不会自动关闭，而是接着处理后续请求。
 
@@ -20,7 +22,8 @@ Fast CGI是在服务器开启时初始化几个CGI解释器，在像普通CGI处
 - 反向代理：客户端请求nginx服务器，nginx自动转发请求到上游服务器，然后将上游服务器的响应再返回给客户端，反向代理隐藏了真正的服务器，代理的对象是服务端
 - 正向代理：客户端配置代理服务器为nginx服务器，nginx作为代理服务器去请求上游服务器，正向代理隐藏了真正的客户端，代理的对象是客户端，
 
-###http状态码
+http状态码
+---
 - 301，永久重定向，浏览器获取到此状态码后，以后的请求就会直接请求重定向地址。
 - 302，临时重定向，浏览器获取到此状态码后，再去请求重定向地址，可以保证浏览器每次都会请求源地址。
 - 500错误，服务器内部错误，接受到请求无法正常响应。
@@ -28,7 +31,8 @@ Fast CGI是在服务器开启时初始化几个CGI解释器，在像普通CGI处
 - 504错误，服务器响应超时。
 
 
-###nginx配置
+nginx配置
+---
 ```
 http {
     upstream stream_name{
@@ -53,7 +57,8 @@ http {
 }
 ```
 
-###location 配置
+location 配置
+---
 优先级从高到低：
 1. 完全相等匹配 `location = xxx {}`
 2. 前缀匹配  `location xxx {}` 或 `location ^~ {}`
@@ -61,7 +66,8 @@ http {
 4. 通用匹配 `location / {}`
 由优先级从高到低进行匹配，同一类型的，优先使用长串匹配（长串会更精确），直到匹配到一个`没有 rewrite 的location 段`；
 
-###rewrite 配置
+rewrite 配置
+---
 执行顺序：`server中的rewrite -> location -> location中的rewrite`
 有rewrite 字段，且没有 break，则从最开始的server重新匹配，循环超10次会返回 `500 internal server error`
 有四种操作：
@@ -70,7 +76,8 @@ http {
 - redirect 客户端返回 302 临时重定向；
 - permanment 客户端返回 301 永久重定向；
 
-###全局变量
+全局变量
+---
 - \$args: 请求行内的参数 同 $query_string
 - \$content_length/\$content_type/\$http_user_agent/\$http_cookie: 请求行内 content_length/content_type/user_agent/cookie 字段
 - \$document_root: 当前请求的 root 字段值；
@@ -90,7 +97,8 @@ http {
 - $uri: 不带请求参数的uri /test.php
 - $document_uri:同uri
 
-###Nginx转发
+Nginx转发
+---
 nginx可以在Location模块中配置转发：
 ```
 proxy_pass  http://xxxx;  把流量转发到 xxxx；
