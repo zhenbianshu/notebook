@@ -41,3 +41,12 @@ Object object = constructor.newInstance(values); // 使用newInstance方法获�
 Method method = cls.getMethod("test"); // 获取要使用方法名
 method.invoke(object); // 调用方法名
 ```
+
+异常
+---
+异常分为 IOException 和 RuntimeException.
+- RuntimeException: 由程序错误导致的异常，如数组访问越界、访问 null 指针。非受查异常，程序应该处理好此类异常。
+- IOException: 由 I/O 错误导致的异常，如 文件不存在，在文件尾读取数据。受查异常，编译器会检查是否为所有的此类异常提供处理机制。此类异常可在函数声明中指定，并抛给上层调用者。
+- finally 块无论如何都会执行，即使 try 块内有 return。
+- 可以在 catch 块中使用 `ne = new Exception; ne.initCase(e)` 来将原异常包装到新异常内抛出。
+- 可在 catch 块中使用 `e.printStackTrace()` 来打印异常的栈信息排查错误。
