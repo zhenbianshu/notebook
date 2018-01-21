@@ -50,3 +50,39 @@ method.invoke(object); // 调用方法名
 - finally 块无论如何都会执行，即使 try 块内有 return。
 - 可以在 catch 块中使用 `ne = new Exception; ne.initCase(e)` 来将原异常包装到新异常内抛出。
 - 可在 catch 块中使用 `e.printStackTrace()` 来打印异常的栈信息排查错误。
+
+泛型
+---
+泛型是为了使用方法更具有通用性，Java 是强类型语言，如 sort() 方法，需要对不同类型的参数分别构造不同的函数。而使用泛型类型，仅一个方法 `sort(T TYPE)` 就可以了。
+
+泛型有多种替代符，如 `T/U/S(任意类型) E(集合类型) K/V(关键字和值对) `；使用：`<>` 声明泛型如 `<T>`, 使用准确类型替代 T 来实例化泛型类型，如 <String>;
+
+
+使用：
+- 泛型类：
+```
+class Test<T>{ // 顶部声明泛型
+    private T field; // 类定义中使用泛型
+    Test(T f){
+        this.field=f;
+    }
+}
+
+Test<String> cls = new Test<>("test"); // 实例化时指定类型
+```
+- 泛型方法
+```
+class Test{
+    // 在限定符后声明泛型类型，在后续使用
+    public static <T> test(T arg){
+        System.out.println(arg);
+    }
+}
+Test.test("hello");
+```
+- 对泛型添加类型限定，可以在声明时 使用`<T extends Interface>` 来限定传入类型是 Interface(接口或父类) 类型的数据；
+
+注意：
+- 实例化泛型类型不能用基本类型，可以使用包装器类型代替。如不能声明 `<integer>`，使用 `<Integer>` 代替 ;
+- 泛型 `<Child>` 不是泛型 `<Parent>` 的子类型，所以 `<Parent>` 限定的参数不能使用 `<Child>` 传入；
+- 可以使用通配符来表达泛型之间的继承关系，如 `<? extends Parent>` 限定的类型就可以传入 `<Child>`; 而且 `<? super Child>` 限定的类型可以传入 `<Parent>` 类型。
