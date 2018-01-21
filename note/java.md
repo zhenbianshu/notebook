@@ -86,3 +86,37 @@ Test.test("hello");
 - 实例化泛型类型不能用基本类型，可以使用包装器类型代替。如不能声明 `<integer>`，使用 `<Integer>` 代替 ;
 - 泛型 `<Child>` 不是泛型 `<Parent>` 的子类型，所以 `<Parent>` 限定的参数不能使用 `<Child>` 传入；
 - 可以使用通配符来表达泛型之间的继承关系，如 `<? extends Parent>` 限定的类型就可以传入 `<Child>`; 而且 `<? super Child>` 限定的类型可以传入 `<Parent>` 类型。
+
+集合
+---
+一些常用集合类型及描述：
+
+类型|特点
+---|---
+List|有序，可重复，可通过索引访问
+Set|无序，不可重复
+Map|键值对
+
+Java中各种集合的实现：
+
+类型|描述|
+---|---|
+ArrayList|可以`动态增长和缩减`的`索引`序列
+LinkedList|可以在任何位置进行高效插入和删除的`有序`序列
+ArrayDeque|用循环数组实现的双端队列
+HashSet|没有重复元素有无序集合
+TreeSet|有序集合
+EnumSet|包含枚举类型的集合
+LinkedHashSet|可以记住元素插入次序的集合
+PriorityQueue|可以高效删除最小元素的集合
+HashMap|存储键值关联的映射表
+TreeMap|键值有序排列的映射表
+EnumMap|键值属于枚举类型的映射表
+LinkedHashMap|可以记住键值项添加次序的映射表
+WeakHashMap|值无用后可以被垃圾回收器回收的映射表
+IdentityHashMap|使用 `==` 而不用 `equals` 比较键值的映射表
+
+注意：
+- LinkedList，便于在 List 中间添加或删除元素，但使用索引访问效率是 O(n); 而 ArrayList 支持随机访问。
+- TreeSet 使用红黑树支持对元素的排序，但元素类需要实现 `Comparable` 接口;
+- PriorityQueue 使用大顶堆排序数据，每次 `remove()` 都能取到最小的元素，元素同样需要实现 `Comparable` 接口；
