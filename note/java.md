@@ -2,6 +2,22 @@
 ----
 - 每个实现了 serializable 接口的类在序列化时 Java 会自动添加其摘要算法生成的一个 serialVesionUID,如果不显示指定，一旦对类进行了小改动就会导致重新生成的UID不一样，反序列化失败，所以可以自己指定一个不再变动。
 
+spring bean 的使用
+---------------
+1. 在 `src/main/resources/spring` 目录下添加 `configxx.xml` 文件。
+2. 在文件中配置如下以添加一个 bean；
+```
+<bean id="xxx" class="pack.class">
+    <property name="testName", value="testValue"/>
+    <property name="otherName">
+        <list>
+            <ref bean="testBeanId"/>
+        </list>
+    </property>
+</bean>
+```
+3. 添加 `pack.class` 类，并确认类有 testName、otherName 项，并设置了 setter 方法。
+
 线程同步
 ---
 - synchronized 关键字
