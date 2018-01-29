@@ -140,3 +140,12 @@ IdentityHashMap|使用 `==` 而不用 `equals` 比较键值的映射表
 - LinkedList，便于在 List 中间添加或删除元素，但使用索引访问效率是 O(n); 而 ArrayList 支持随机访问。
 - TreeSet 使用红黑树支持对元素的排序，但元素类需要实现 `Comparable` 接口;
 - PriorityQueue 使用大顶堆排序数据，每次 `remove()` 都能取到最小的元素，元素同样需要实现 `Comparable` 接口；
+
+注解
+---
+- @GeneratedValue(strategy=GenerationType.xxx) ：用于与 @Id 注解搭配，表示生成数据的策略, 取值有 IDENTITY(数据库自动生成)、 AUTO(程序生成)、TABLE(由一个数据表存储)、SEQUENCE(数据库序列生成)。
+- @Column(name = "xxx") 使用 xxx 表示字段名
+- @JSONField(name = "xxx") 序列化和反序列化为 json 时的字段名
+- @AutoWired 自动获取 BEAN 对象注入
+- @Service 自动生成 service bean 对象
+- @Data 提供所有属性的 getter 和 setter 方法；还有功能简化的 @Setter 和 @Getter;
