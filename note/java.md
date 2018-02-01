@@ -146,6 +146,6 @@ IdentityHashMap|使用 `==` 而不用 `equals` 比较键值的映射表
 - @GeneratedValue(strategy=GenerationType.xxx) ：用于与 @Id 注解搭配，表示生成数据的策略, 取值有 IDENTITY(数据库自动生成)、 AUTO(程序生成)、TABLE(由一个数据表存储)、SEQUENCE(数据库序列生成)。
 - @Column(name = "xxx") 使用 xxx 表示字段名
 - @JSONField(name = "xxx") 序列化和反序列化为 json 时的字段名
-- @AutoWired 自动获取 BEAN 对象注入
+- @AutoWired 自动获取 BEAN 对象注入，使用时要主动声明字段和setter函数，在Bean中还有 @AutoWired 注解时需要给此bean添加 property 字段并新引入的bean定义好。
 - @Service 自动生成 service bean 对象
 - @Data 提供所有属性的 getter 和 setter 方法；还有功能简化的 @Setter 和 @Getter;
