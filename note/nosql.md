@@ -4,6 +4,7 @@
 - 对于redis连接假死的情况，可以使用 ping pong 来探测；如果不通，则需要重连；
 - 使用 `object idletime key`来获取key的空闲时间（未读取时间）
 - redis是单线程模型，一个大命令执行时会导致后续命令都被阻塞，甚至影响到其受理连接。
+- redis启动需要指定 redis.conf文件，如果需要后台启动，可以修改配置文件 `daemonize=yes`
 
 缓存 redis
 ---
