@@ -149,3 +149,27 @@ IdentityHashMap|使用 `==` 而不用 `equals` 比较键值的映射表
 - @AutoWired 自动获取 BEAN 对象注入，使用时要主动声明字段和setter函数，在Bean中还有 @AutoWired 注解时需要给此bean添加 property 字段并新引入的bean定义好。
 - @Service 自动生成 service bean 对象
 - @Data 提供所有属性的 getter 和 setter 方法；还有功能简化的 @Setter 和 @Getter;
+
+stream
+------
+stream 使用 map/reduce 的思想将数据分组处理后再汇总，在产生一个stream流后，使用`中间符`和`终结符`进行数据操作。
+
+产生stream流：
+- collection 可以直接使用 `collection.stream()`;
+- 数组可以使用 `Stream.of(arr)` 或 `Array.stream(arr)` 来产生开始流。
+
+中间符处理流，生成新的流：
+- `map(item->{object})` 遍历流中元素；
+- `filter(item->{bool})` 过滤流元素；
+- `flatMap(item->拆散元素方式)` 将 `[[a,b],[c,d]]` 拆成 `a,b,c,d`;
+- `limit(count)` 限制流元素数量；
+- `skip(count)` 跳过开始n个元素；
+- `distinct()` 元素去重；
+- `sorted(sort_method)` 元素排序；
+
+终结符处理流，生成最终结果：
+- `reduce((x,y)->x op y)` ,操作前后两个元素，最终生成一个结果
+- `collect(Collectors.toList())`， 将所有值处理，生成一个集合结果
+- `foreach(item->operate)` 遍历结果操作
+- `toArray() / toMap(key,value)` 生成数组/MAP
+- `sum()` 用来 `mapToLong()/mapToInt` 之后求和

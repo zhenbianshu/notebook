@@ -12,7 +12,7 @@
 实例：
 ---
 - `docker run -d -p 6379:6379 redis` 启动一个redis服务器
-- `docker run -d -p 3306:3306 mysql -e MYSQL_ROOT_PASSWORD=123456` 启用一个mysql服务器
+- `docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql` 启用一个mysql服务器
 
 创建docker镜像
 ----------
