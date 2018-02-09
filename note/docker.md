@@ -9,6 +9,11 @@
 - `-p dPort:hPort` 把宿主机的hPort收到的请求转发到 docker容器的dPort
 - `--name dName` 指定docker实例的名字
 
+实例：
+---
+- `docker run -d -p 6379:6379 redis` 启动一个redis服务器
+- `docker run -d -p 3306:3306 mysql -e MYSQL_ROOT_PASSWORD=123456` 启用一个mysql服务器
+
 创建docker镜像
 ----------
 
