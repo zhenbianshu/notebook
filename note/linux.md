@@ -512,3 +512,22 @@ option有：
 - -S 打印服务器响应头
 - -O filename 将响应体输出到文件里
 - -e command  执行command 如 `-e --http_proxy=1.1.1.1` 使用代理
+
+mtr
+---
+mtr 能综合ping nslookup tracert的命令，使用很简单 `mtr [option] 域名/ip`;
+
+常用参数有：
+- -s 设置ping包的大小;
+- -n no-dns，不对ip地址做域名解析；
+- -a ip ,设置发送包的IP地址；
+- -c 设置ping的次数count；
+- -i 设置两次ping的间隔interval；
+- -4/-6 指定协议为 ipv4/v6；
+
+结果为：
+- Host: tracert经过的ip；
+- Loss%: ip丢包率，最后一行为最终丢包率；
+- Snt: 发送包数；
+- Last/Avg/Best/Worst: 各链路延迟，毫秒为单位；
+- StDev: 标准偏差；
