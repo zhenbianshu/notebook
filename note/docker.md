@@ -9,7 +9,7 @@
 - `-p dPort:hPort` 把宿主机的hPort收到的请求转发到 docker容器的dPort
 - `--name dName` 指定docker实例的名字
 - `docker exec -it containerSHA /bin/bash` 执行与容器的交互操作；
-- `-v oriDir:containerDir` 映射宿主机的目录到容器中；
+- `-v oriDir:containerDir` 映射宿主机的目录到容器中 volume；
 
 
 实例：
@@ -38,3 +38,25 @@
 启动时可以使用 -v 选项使用宿主机的目录替代原容器目录；
 
 所以一个标准的nginx启动应该是 `docker run -p 80:8888 -v /data1/dir/myConfDir:/etc/nginx/conf.d -d nginx`
+
+docker-compose
+--------------
+编辑 `docker-compose.yml` 文件后，在同级目录下使用 `docker-compose up -d [serviceName]` 可以启动一个定义好的服务。文件格式如下：
+
+```
+serviceName:
+ image: remoteImage
+ ports:
+    - hostPort1:containerPort1
+    - hostPort2:containerPort2
+    [...]
+ volumes:
+    - hostDir1:containerDir1
+    - hostDir2:containerDir2
+    [...]
+ enviroment:
+    - A=B
+    - C=D
+    [...]
+[another service]
+```
