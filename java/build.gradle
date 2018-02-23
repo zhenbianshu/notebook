@@ -1,0 +1,44 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.M3'
+    }
+
+    repositories {
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}
+
+group 'java'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'groovy'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url 'https://repo.spring.io/libs-milestone' }
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+dependencies {
+    compileOnly "org.projectlombok:lombok:1.16.16"
+    compile "org.springframework.boot:spring-boot-devtools:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
+    compile "mysql:mysql-connector-java:8.0.8-dmr"
+    compile "org.springframework:spring-core:5.0.4.RELEASE"
+    compile "org.spockframework:spock-core:1.1-groovy-2.4"
+}
+
+configurations {
+    all*.exclude module: 'spring-boot-starter-json'
+}
