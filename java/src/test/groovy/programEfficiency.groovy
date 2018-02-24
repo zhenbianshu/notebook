@@ -1,3 +1,4 @@
+import efficiency.Concurrent
 import efficiency.IO
 import spock.lang.Specification
 import efficiency.AlgComplexity
@@ -39,5 +40,21 @@ class programEfficiency extends Specification {
         10   | _
         100  | _
         1000 | _
+    }
+
+    def "concurrentCost test"() {
+        when:
+        long singleThreadCost = Concurrent.calSingleThreadCost(n)
+        long multiThreadCost = Concurrent.calMultiThreadCost(n)
+
+        then:
+        println(singleThreadCost)
+        println(multiThreadCost)
+
+        where:
+        n     | _
+        100   | _
+        1000  | _
+        10000 | _
     }
 }
