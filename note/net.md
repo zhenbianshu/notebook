@@ -161,3 +161,16 @@ NAT Net Address Transform
 定义：（Head-of-line blocking或缩写为HOL blocking）由于队首的第一个数据包受阻而导致整队数据包阻塞。
 问题：交换机，TCP，HTTP都可能出现此问题。
 解决：解决此问题可以使用虚拟队列，消除队列数据对队首处理状态的依赖，HTTP可以使用管道化请求，将幂等请求管道化，而HTTP2则使用虚拟流，一个tcp连接上建立多个http流。
+
+服务器负载均衡
+-------
+负载均衡分为硬件和软件：
+- 硬件：F5 的 BIG-IP、Citrix 的 NetScaler，能同时提供四层和七层负载均衡；
+- 软件：基于TCP、HTTP协议，有四层(LVS,HaProxy,Nginx),七层(HaProxy,Nginx,ATS等)
+
+LVS: 工作在四层，实现和 iptables 和 netfilter 类似，工作在内核的 TCP/IP 协议栈上，可以强行修改报文，将数据发给后端主机。
+常用的设备地址：
+- VIP：Virtual IP，LVS 面向用户请求的 IP 地址
+- RIP：Real server IP，后端服务器用于和 LVS 通信的 IP 地址
+- DIP：Director IP，LVS 用户和后端服务器通信的 IP 地址
+- CIP：Client IP，客户端 IP 地址
