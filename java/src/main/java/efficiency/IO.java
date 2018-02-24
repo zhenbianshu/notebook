@@ -1,7 +1,5 @@
 package efficiency;
 
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
 import java.sql.*;
 
 /**
@@ -12,10 +10,17 @@ public class IO {
 
     public IO() {
         try {
-            this.connection = new DriverManagerDataSource("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8").getConnection("root", "123456");
+            new com.mysql.cj.jdbc.Driver();
+            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "123456");
+            // 先执行一次消除初始化影响
+            Statement stmt = connection.createStatement();
+            String sql = "select * from test where id=1";
+            stmt.executeQuery(sql);
         } catch (Exception e) {
             System.exit(0);
         }
+
+
     }
 
     public long calMultiIOCost(int n) {
