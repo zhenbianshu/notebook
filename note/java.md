@@ -173,3 +173,10 @@ stream 使用 map/reduce 的思想将数据分组处理后再汇总，在产生�
 - `foreach(item->operate)` 遍历结果操作
 - `toArray() / toMap(key,value)` 生成数组/MAP
 - `sum()` 用来 `mapToLong()/mapToInt` 之后求和
+
+hashCode 和 equals
+-----------------
+- 默认 Object 类的 equals 方法是同一个对象才会返回 true;
+- String 类的 equals 方法以判断字符串内容返回结果；
+- 如果两个对象 equals 为 true，则其 hashCode 必须要相等；
+- 在 hashSet 中，通过 hashCode 建立索引查找到存储位置，通过 equals 方法判断是否同一个对象，如果不是同一个对象，用链表或红黑树存储 hashCode 相同的两个对象；
