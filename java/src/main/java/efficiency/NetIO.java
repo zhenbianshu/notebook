@@ -5,10 +5,10 @@ import java.sql.*;
 /**
  * created by zbs on 2018/2/24
  */
-public class IO {
+public class NetIO {
     private Connection connection;
 
-    public IO() {
+    public NetIO() {
         try {
             new com.mysql.cj.jdbc.Driver();
             this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "123456");
