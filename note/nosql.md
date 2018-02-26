@@ -85,3 +85,15 @@ QPS
 ---
 阿里云单机Redis能达到 10W写QPS
 60W读QPS
+
+压测
+---
+redis-benchmark 命令：
+
+- -h/-p  host/port;
+- -c clientNum 并发数;
+- -n number 请求数;
+- -t COMMAND 命令类型；
+- -q 只显示结果统计；
+
+`redis-benchmark -h 10.13.0.115 -p 6379 -c 50 -n 10000 -t GET` 50并发请求10000次GET
