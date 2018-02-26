@@ -1,6 +1,7 @@
 ﻿tips：
 ---
-域名的层级结构：主机名.次级域名.顶机域名.根域名（www.alwayscoding.cn.root）(bbs.alwayscoding.cn.root)
+- 域名的层级结构：主机名.次级域名.顶机域名.根域名（www.alwayscoding.cn.root）(bbs.alwayscoding.cn.root)
+- 使用 `nslookup domain` 来查询domain对应的 ip列表；
 
 HTTP：
 ---
