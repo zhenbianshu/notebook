@@ -1,11 +1,11 @@
 import efficiency.Concurrent
 import efficiency.FileIO
 import efficiency.NetIO
-import spock.lang.Specification
 import efficiency.AlgComplexity
+import spock.lang.Specification
 import spock.lang.Unroll
 
-class programEfficiency extends Specification {
+class programEfficiencyTest extends Specification {
 
     NetIO netIO = new NetIO()
 
@@ -27,6 +27,7 @@ class programEfficiency extends Specification {
         100000L | _
     }
 
+    @Unroll
     def "netIOCost test"() {
         when:
         netIO.calOnceIOCost(1)
@@ -44,6 +45,7 @@ class programEfficiency extends Specification {
         1000 | _
     }
 
+    @Unroll
     def "concurrentCost test"() {
         when:
         long singleThreadCost = Concurrent.calSingleThreadCost(n)
@@ -60,6 +62,7 @@ class programEfficiency extends Specification {
         10000 | _
     }
 
+    @Unroll
     def "fileIOCost test"() {
         when:
         long onceReadCost = FileIO.calReadOnceCost()
