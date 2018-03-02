@@ -2,9 +2,11 @@ import efficiency.Concurrent
 import efficiency.FileIO
 import efficiency.NetIO
 import efficiency.AlgComplexity
+import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 import spock.lang.Unroll
 
+@ContextConfiguration(locations = "classpath:db.xml")
 class programEfficiencyTest extends Specification {
 
     NetIO netIO = new NetIO()

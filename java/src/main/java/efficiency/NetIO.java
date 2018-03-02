@@ -11,7 +11,7 @@ public class NetIO {
     public NetIO() {
         try {
             new com.mysql.cj.jdbc.Driver();
-            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "123456");
+            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "root");
             // 先执行一次消除初始化影响
             Statement stmt = connection.createStatement();
             String sql = "SELECT * FROM test WHERE id=1";

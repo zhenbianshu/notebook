@@ -38,6 +38,8 @@ dependencies {
     compile "org.springframework:spring-core:5.0.4.RELEASE"
     compile "org.spockframework:spock-core:1.1-groovy-2.4"
     testCompile "cglib:cglib-nodep:3.2.6"
+    testCompile group: 'org.springframework', name: 'spring-test', version: '5.0.4.RELEASE'
+
 }
 
 configurations {

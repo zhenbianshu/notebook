@@ -20,7 +20,7 @@ public class Query implements Callable<Integer> {
         this.maxId = maxId;
         try {
             new com.mysql.cj.jdbc.Driver();
-            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "123456");
+            this.connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "root");
         } catch (Exception e) {
             System.exit(0);
         }

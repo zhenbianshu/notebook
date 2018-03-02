@@ -21,7 +21,7 @@ public class Concurrent {
     public static long calSingleThreadCost(int n) {
         try {
             new com.mysql.cj.jdbc.Driver();
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "123456");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/aquatic?characterEncoding=UTF-8&useSSL=true", "root", "root");
             Statement stmt = connection.createStatement();
             long start = System.currentTimeMillis();
 
