@@ -531,3 +531,10 @@ mtr 能综合ping nslookup tracert的命令，使用很简单 `mtr [option] 域�
 - Snt: 发送包数；
 - Last/Avg/Best/Worst: 各链路延迟，毫秒为单位；
 - StDev: 标准偏差；
+
+watch
+---
+用于循环监听执行某个命令：`watch [option] command`, option:
+- -n N 时间间隔N秒一次
+- -d 高亮显示跟上一次执行有变化的地方
+- -t 关闭上方显示的时间和命令描述；

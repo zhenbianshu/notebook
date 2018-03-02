@@ -2,14 +2,22 @@ import efficiency.Concurrent
 import efficiency.FileIO
 import efficiency.NetIO
 import efficiency.AlgComplexity
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import java.sql.Connection
 
 @ContextConfiguration(locations = "classpath:db.xml")
 class programEfficiencyTest extends Specification {
 
     NetIO netIO = new NetIO()
+
+    @Autowired
+    @Qualifier(value = "localConnection")
+    Connection connection
 
     @Unroll
     def "algComplexityCost test"() {
@@ -69,6 +77,7 @@ class programEfficiencyTest extends Specification {
         when:
         long onceReadCost = FileIO.calReadOnceCost()
         long multiReadCost = FileIO.calReadMultiCost()
+        println(connection)
 
         then:
         println(onceReadCost)
