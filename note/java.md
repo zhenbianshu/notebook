@@ -180,3 +180,11 @@ hashCode 和 equals
 - String 类的 equals 方法以判断字符串内容返回结果；
 - 如果两个对象 equals 为 true，则其 hashCode 必须要相等；
 - 在 hashSet 中，通过 hashCode 建立索引查找到存储位置，通过 equals 方法判断是否同一个对象，如果不是同一个对象，用链表或红黑树存储 hashCode 相同的两个对象；
+
+spring 参数注解
+-----------
+- `@PathVariable String id` id 需要在 `@RequestMapping("/test/{id}")` 里定义；
+- @RequestHeader("header field") 获取 HTTP 头参数；
+- @CookieValue("cookie field") 获取 cookie 参数；
+- @RequestParam(value = "REQUEST field", required = false) 从 REQUEST 里获取参数， 可以设置是否必传；
+- `@RequestBody String data` 获取整个request body， 适用于 content-type 为 `application/json` 等类型的。
