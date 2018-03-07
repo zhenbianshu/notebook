@@ -1,8 +1,20 @@
 服务器是如何受理一个Http请求的
 
-操作系统层面
+操作系统受理一个I/O请求
+-------------
+从协议栈到内核再到用户层
+
+socket本质
+--------
+读写handler
+包含信息五元组
+从创建到绑定到读写
 
 I/O 模型
+------
+
+epoll
+---
 只讲 select 和 epoll， 用之前的 tinyServer 案例来说。
 
 socket是怎么被标注为可读的？
@@ -13,3 +25,6 @@ socket是怎么被标注为可读的？
 中断有两种：可屏蔽中断请求INTR（INTerrupt Require）和不可屏蔽中断请求NMI（NonMaskable Interrupt）;
 
 epoll为什么边缘触发为什么要非阻塞，水平触发则不必要
+
+小结
+---
