@@ -559,3 +559,10 @@ perf 是一个性能分析工具，它通过tick中断触发采样点，在采�
 
     -p pid 关联到某个正在运行的进程上。
     ```
+
+date
+---
+- date 显示当前时间信息
+- `date -r timestamp` 解析时间戳获取时间信息
+- `date "+%F %F..."` 格式化输出日期
+- `date -s date-time` 设置系统时间
