@@ -14,6 +14,7 @@
 - mysql varchar(n)类型存储时，尽量选用较小的n值，虽然mysql在存储方式上，n的值为1和255没什么区别；但在查询时，临时表会为varchar存储尽量大的空间，在字符集为utf-8时，内存表分配的空间为 3*n + 长度；另外还要考虑别的存储引擎的存储方式；
 - replace into 会使用当前参数替换掉与之唯一主键冲突的数据，流程是删除原有记录，新建一条记录；
 - set password = password('new password') 设置当前登陆的用户密码；
+- `show status like '%item%'` 查看mysql状态,如client
 
 - 使用`POINTFROMTEXT('POINT({$lon} {$lat})')`插入点数据
 
