@@ -309,6 +309,29 @@ Traceroute在送出UDP datagrams到目的地时，它所选择送达的port numb
 
 rsync
 ---
+服务端配置
+
+```
+# general conf
+port=873
+max connections=500
+log file=/var/log/rsyncd.log
+pid file=/var/run/rsyncd.pid
+
+[zbs] # module
+path = /data1/zbs # aim_dir
+read only=no
+use chroot=no
+uid=root
+gid=root
+auth users=zbs
+secrets file=/etc/rsyncd.scrt # add secret line "zbs:password"
+ignore errors
+exclude = git/
+```
+
+客户端使用 `rsync -avz fileOrDir rsync://{user}@{host}:{port}/{module}/dir`
+
 rsync是一个远程数据同步工具，可以通过LAN/WAN快速同步多台主机间的文件，使用rsync算法可以只传送数据的一部分，因而速度很快；
 用法为 `rsync [options]   SRC DEST  ([user@]host::PATH/TO/FILE)`
 
