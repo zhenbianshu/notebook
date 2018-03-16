@@ -188,3 +188,9 @@ spring 参数注解
 - @CookieValue("cookie field") 获取 cookie 参数；
 - @RequestParam(value = "REQUEST field", required = false) 从 REQUEST 里获取参数， 可以设置是否必传；
 - `@RequestBody String data` 获取整个request body， 适用于 content-type 为 `application/json` 等类型的。
+
+处理参数过长的情况
+---
+- 封装参数对象
+- 使用子类 classBuilder
+- 重载构造函数、使用得命名后的静态工厂函数代替重构的构造函数；
