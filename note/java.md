@@ -174,6 +174,14 @@ stream 使用 map/reduce 的思想将数据分组处理后再汇总，在产生�
 - `toArray() / toMap(key,value)` 生成数组/MAP
 - `sum()` 用来 `mapToLong()/mapToInt` 之后求和
 
+
+reduce() 需要的值：
+- `Optional<T> reduce(BinaryOperator<T> accumulator);`  初始值默认为空，累加器为前后两个值的累加方式  如 `strStream.reduce((a,b)->a+b);`
+- `T reduce(T identity, BinaryOperator<T> accumulator);` 初始值为 identity,  累加器累加值到初始值上 如 `strStream.reduce("start:", (a,b)->a+b);`
+- `<U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner);` 初始值为 identify, 累加器累加到初始值上， 组合器是并行累加结果合并的方式。
+
+
+
 hashCode 和 equals
 -----------------
 - 默认 Object 类的 equals 方法是同一个对象才会返回 true;
