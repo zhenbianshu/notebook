@@ -1,4 +1,7 @@
 JavaScript Alert 函数执行顺序问题
+
+文章简单地介绍了 javaScript 的 alert 函数在遇到异步代码时的执行顺序问题，分析了问题导致的原因，并提出替换 alert 和 使用 setTimeout 转异步两种解决方案。
+
 #问题
 ---
 前几天使用 JavaScript 写 HTML 页面时遇到了一个奇怪的问题：
