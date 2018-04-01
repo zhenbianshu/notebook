@@ -60,3 +60,5 @@ serviceName:
     [...]
 [another service]
 ```
+
+进入服务 `docker-compose exec serviceName bash`
