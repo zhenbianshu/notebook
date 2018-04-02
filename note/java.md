@@ -202,3 +202,26 @@ spring 参数注解
 - 封装参数对象
 - 使用子类 classBuilder
 - 重载构造函数、使用得命名后的静态工厂函数代替重构的构造函数；
+
+延迟初始化占位类-单例模式
+---
+1. 使用一个内部类的静态变量存储并初始化实例；
+2. 内部类的静态方法用于获取实例；
+3. 只有调用内部类的静态方法时，实例才会被初始化；
+4. 由于静态变量的限制，避免了使用锁；
+
+实例代码如下
+```
+public class Instance {
+
+    static class InstanceFactory {
+        private static Instance instance = new Instance();
+
+        public static Instance getInstance() {
+            return instance;
+        }
+    }
+}
+
+Instance instance = Instance.InstanceFactory.getInstance();
+```
