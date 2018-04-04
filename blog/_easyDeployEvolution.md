@@ -63,10 +63,12 @@ exclude = .git/ # 排除掉 .git 文件夹
 
 至于 rsync 的同步算法， 推荐陈皓大神的文章：[RSYNC 的核心算法](https://coolshell.cn/articles/7425.html)
 
-#修改rsync，添加回调选项
-使用了 rsync 之后，之前的脚本就不能用了，rsyncd 进程和 shell 进程是两个进程，上传结束后自动重启不好使了，这时我开始打 rsync 的主意了，rsync 是一个开源软件，我考虑帮它加一个参数，让它帮我在系统上传结束后执行一些命令。
+rsync解决了上传速度的问题，但是又引入了新的问题：我必须等着上传结束，并且上传结束后还要登陆测试机手动重启 docker 服务，挺不方便的。
 
-rsync 的源码代码量还是挺大的，不过修改它我们不需要通读一遍，我将它分为两个步骤：
+#修改rsync，添加回调选项
+这时我开始打 rsync 源码的主意了，rsync 是一个开源软件，我考虑帮它加一个参数，让它帮我在文件上传结束后自动执行一些命令。
+
+说做就做，从 [rsync官网](https://rsync.samba.org/download.html) 下载到 rsync 的源码开始查看。rsync 的源码代码量还是挺大的，不过修改它我们不需要通读一遍，我将它分为两个步骤：
 
 - 读取到callback参数的值；
 - 上传结束后调用callback参数的值；
@@ -87,29 +89,27 @@ rsync 的源码代码量还是挺大的，不过修改它我们不需要通读�
     }
 ```
 
+#docker-compose tomcat自动部署
+其实 tomcat 是可以自动部署的，需要配置 `server.xml`，文档：[Tomcat Web Application Deployment](https://tomcat.apache.org/tomcat-9.0-doc/deployer-howto.html)
 
-#tomcat自动部署
-有大神提示可以自动部署，部署文档：https://tomcat.apache.org/tomcat-9.0-doc/deployer-howto.html
+可是我们的服务是基于 docker-compose 进行部署的，如果修改 server.xml 还需要将文件导入到 docker 里。
 
-
-1. 配置 server.xml
+其中 docker 可以这么配置：
 
 ```
-autoDeploy=true
-
 docker:
 FROM tomcat:7-jre8
 COPY server.xml /usr/local/tomcat/conf/
+```
 
+docker-compose 可以在 yaml 里添加如下配置：
+
+```
 docker-compose
 volumes:
    - ./cluster/server.xml:/usr/local/tomcat/conf/server.xml
 
 ```
-2. rsync to docker
-
-docker-compose + rsync
-
 
 #添加通知
 callback 有作用了，使用通信工具的curl接口
