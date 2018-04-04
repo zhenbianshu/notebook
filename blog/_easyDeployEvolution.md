@@ -89,36 +89,82 @@ rsync解决了上传速度的问题，但是又引入了新的问题：我必须
     }
 ```
 
+这样，我给自己上传用的 module 添加一个脚本作为 callback，在每次上传完后，都会执行我配置的脚本，脚本里我可以配置上服务的重启，自动部署就实现了。
+
 #docker-compose tomcat自动部署
-其实 tomcat 是可以自动部署的，需要配置 `server.xml`，文档：[Tomcat Web Application Deployment](https://tomcat.apache.org/tomcat-9.0-doc/deployer-howto.html)
+其实 tomcat 是可以自动部署的，需要配置 `server.xml`的 Host 元素，将 autoDeploy 属性置为 true，文档：[Tomcat Web Application Deployment](https://tomcat.apache.org/tomcat-9.0-doc/deployer-howto.html)。
 
 可是我们的服务是基于 docker-compose 进行部署的，如果修改 server.xml 还需要将文件导入到 docker 里。
 
 其中 docker 可以这么配置：
 
 ```
-docker:
 FROM tomcat:7-jre8
 COPY server.xml /usr/local/tomcat/conf/
 ```
 
-docker-compose 可以在 yaml 里添加如下配置：
+docker-compose 可以在 yml 配置文件里添加如下配置：
 
 ```
-docker-compose
+image:
+    tomcat-base
 volumes:
-   - ./cluster/server.xml:/usr/local/tomcat/conf/server.xml
-
+   - ./path/server.xml:/usr/local/tomcat/conf/server.xml
+   - ./path/webapps:/data1/project/webapps
 ```
+
+这样，每当上传了新的war包，tomcat 就会自动监测到并重新部署服务；
+
+此时，还有一个需求， war 包同步完成，重启完成后我不知道，得随时关注tomcat的服务日志，以尽快得知重启结果，及时测试，如果服务重启完就立即告诉我就最好了。
 
 #添加通知
-callback 有作用了，使用通信工具的curl接口
+此时，我修改的 rsync 就有了作用了，使用 callback 参数在测试机启动一个脚本以监测tomcat的服务日志，服务重启完成后会输出 `Server startup in xxx ms`，如果监测到有新的 log 输出，则发送一个通知告诉我。
+
+callback 参数配置的脚本类似于：
+
+```
+#!/bin/bash
+
+docker-compose stop -t 0
+`rm /data1/project/webapps/ROOT -rf`
+sleep 1
+docker-compose start
+
+sleep 5 #这里等待一会，使大量日志覆盖掉上一次重启的结果日志
+date=`date "+%Y-%m-%d"`
+catalina_log="/data1/project/logs/catalina.$date.log"
+
+while :
+do
+	finish=`tail -n 1 $catalina_log | grep 'Server startup'`
+	if [ -n "$finish" ]
+	then
+		break
+	fi
+	sleep 0.1
+done
+
+`curl -u "user:password" -d "uid=5715965217&text=succ" "messages/new.json"`
+```
+其实在测试机启动一个守护进程用来实时监测日志也是可以的，但是需要处理日志的新旧逻辑。
+
+至于通知，有很多工具可以使用，微博、QQ、微信、短信等通讯工具都提供有对外的http接口，这个可以依各人喜好选择使用。
 
 #小结
-懒 + 不要跟着吃屎
+把开发机上的mvn打包命令和 rsync 同步命令也包装成脚本，如下所示：
 
-后续添加个提示功能
-curl -u "sendUid@password" -d "uid=receiveUid&text=content" "http://i2.api.weibo.com/2/direct_messages/new.json?source=xxxxxx" > /dev/null
+```
+#!/bin/bash
+mvn clean  -DskipTests=true package -Pwar -am -pl project
+file=`find /path/to/project/target -name "*.war"`
+export RSYNC_PASSWORD=123456
+rsync -avz $file rsync://zbs@IP:PORT/zbs/ROOT.war
+```
 
-git测试系统一键配置
+再给脚本添加一个 alias 别名，真正的一键部署就完成了，可以放手去喝杯水或做些其他事，等收到消息通知后，回来继续测试即可。
+
+部门正在搭配 git 系统做自动部署测试系统，非常期待 push 过代码后就可以迅速测试的未来。
+
+果然，懒才是第一生产力啊~
+
 
