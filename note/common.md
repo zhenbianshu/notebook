@@ -3,6 +3,7 @@
 - crontab file 添加crontab；file需要自己编辑
 - cmd + k 完整清屏
 - alt + 方向，跨字符移动
+- 使用 `sudo xattr -cr /Applications/xxx.app/` 可以避开mac的APP安全限制
 
 代码规范
 ---
