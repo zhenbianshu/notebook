@@ -225,3 +225,9 @@ public class Instance {
 
 Instance instance = Instance.InstanceFactory.getInstance();
 ```
+
+async注解
+---
+@async是spring的一种注解，可以在方法上使用使得方法在调用时异步执行，注解到类上时类所有方法都会异步。实现原理是添加注解使得spring 在代理时使用异步执行，所以调用类内部的 @async注解方法无效，因为spring没法代理。
+
+通过设置 @async("executor") executor来设置执行线程池的bean。
