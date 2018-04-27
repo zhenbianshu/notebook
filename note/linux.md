@@ -589,3 +589,21 @@ date
 - `date -r timestamp` 解析时间戳获取时间信息
 - `date "+%F %F..."` 格式化输出日期
 - `date -s date-time` 设置系统时间
+
+命令行命令操作
+---
+- ﻿ALT + b/f  移向词头/尾 =》 zsh CTRL + ->/<-
+- CTRL + w   删向词头
+- ALT + d    删向词尾
+- CTRL + u   删向行头
+- CTRL + k   删向行尾
+- CTRL + -   撤销上步
+
+命令行json格式化命令 jq
+---
+使用管道加 jq 格式化 json 输出 如  `curl www.example.com | jq ['operation']`
+
+取特定值：
+- '.fieldA.fieldB' 从根参数中取出 fieldA 下的 fieldB 字段
+- '.list[].field' 从根下取出 list 数组里的所有 field 字段
+- '.list | length' 取出根下 list 数组的长度
