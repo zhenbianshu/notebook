@@ -604,6 +604,10 @@ date
 使用管道加 jq 格式化 json 输出 如  `curl www.example.com | jq ['operation']`
 
 取特定值：
-- '.fieldA.fieldB' 从根参数中取出 fieldA 下的 fieldB 字段
-- '.list[].field' 从根下取出 list 数组里的所有 field 字段
-- '.list | length' 取出根下 list 数组的长度
+- '.fieldA.fieldB' 取出 fieldA 下的 fieldB 字段
+- '.list[].field' 取出 list 数组里的所有 field 字段
+- '.list | length' 取出 list 数组的长度
+- '.list[] | length' 取出 list 数组中每个元素的长度
+- '.list[2]' 取出 list数组中的第三项
+- '.list[2，3]' 取出 list数组中的第三、四项
+- '.list[2:9]' 取出 list数组中的第三到十项
