@@ -4,6 +4,7 @@
 - cmd + k 完整清屏
 - alt + 方向，跨字符移动
 - 使用 `sudo xattr -cr /Applications/xxx.app/` 可以避开mac的APP安全限制
+- 替换上面，使用 `sudo spctl --master-disable` 暂时放弃 mac 的完整性校验，软件开启后 再用 enable 命令打开
 
 代码规范
 ---
