@@ -10,3 +10,7 @@
 8. 锁
 9. 中断
 10. 连接数
+
+工具：
+linux 命令
+ab, dstat, iftop, logs,
