@@ -165,7 +165,7 @@ grep 命令：grep needel [-option] file;
 - -A/B/C N附加显示匹配的后N行/前N行/前N行和后N行；
 - -a 将二进制文件按ASCII格式搜索；
 - -c 只显示符合要求的行数，在多文件情况下会返回各文件的符合行数；
-- -e 按照正则表达式搜索；
+- -e 按照正则表达式搜索； egrep 命令与此相同
 - -H 在匹配结果前附加显示文件名（默认不附加文件名）；
 - -i 忽略大小写（默认区分大小写）；
 - -l/L 只显示 有/没有 匹配结果的文件；
@@ -197,6 +197,35 @@ option有
 option为空时，默认输出整行，如 `awk '$2>4' file` 即可输出第二列大于4的行。
 使用 `~` 作为正则匹配符，如 awk '$2~/[0-9]/' 输出第二列为0-9的行
 可以使用 && || ! 添加复合条件
+
+sed
+---
+sed 可以认为是一个迭代器，迭代处理文件的每一行，并将结果输出。用法为 `sed [option] '[line_start[line_end]]function' file`
+
+option有：
+- -n 安静模式，只输出改变的行
+- -i 不输出，直接修改文件内容
+
+function有：
+- i insert_content 在上一行添加内容
+- a append_content 在下一行添加内容
+- c replace_content 取代选中行
+- d 删除选中行
+- p 打印，配合 -n 输出选中行
+- s 替换内容，一般使用正则 `2,5s/old/new/g`
+
+
+
+paste
+---
+paste [option] fileA fileB  将多个文件的一行整合到一行输出
+
+option 有：
+- -d 'delimeter' 指定合并的分隔符
+- -s 单个文件输出
+
+管道时  cat file | paste - - - , 将输出的连续三行作为一行输出， - 代表一行。
+
 
 互斥量 信号量 条件变量
 ---
@@ -605,6 +634,9 @@ date
 命令行json格式化命令 jq
 ---
 使用管道加 jq 格式化 json 输出 如  `curl www.example.com | jq ['operation']`
+
+- -r 字符串格式化输出，如果输出是带有引号的字符串，去掉引号
+- xx as $var  将取出的值声明为 $var ，在后续上下文中使用
 
 取特定值：
 - '.fieldA.fieldB' 取出 fieldA 下的 fieldB 字段
