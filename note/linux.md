@@ -216,7 +216,7 @@ function有：
 - d 删除选中行
 - p 打印，配合 -n 输出选中行
 - s 替换内容，一般使用正则 `2,5s/old/new/g`
-- example: `sed -E /aa([0-9]+)/\1/s` 输出每行aa后面的数字
+- example: `sed -E "s/aa([0-9]+)/\1/g"` 输出每行aa后面的数字
 
 
 paste
