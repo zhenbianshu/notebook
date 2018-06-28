@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  aop:
+    auto: true
+  servlet:
+    multipart:
+      enabled: true
+      maxFileSize: 20Mb
+      maxRequestSize: 20Mb
+  jackson:
+    date-format: yyyy-MM-dd
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF8&serverTimezone=PRC
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    check-template: true
+    # 关闭模板缓存，便于调试
+    cache: false
+    suffix: .html
