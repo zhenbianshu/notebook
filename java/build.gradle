@@ -43,6 +43,10 @@ allprojects {
         compile group: 'org.projectreactor', name: 'reactor-core', version: '1.1.6.RELEASE'
         compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
         compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
+        compile group: 'com.netflix.hystrix', name: 'hystrix-core', version: '1.5.12'
+        compile group: 'com.netflix.hystrix', name: 'hystrix-javanica', version: '1.5.12'
+        compile group: 'com.netflix.hystrix', name: 'hystrix-metrics-event-stream', version: '1.5.12'
+        compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-hystrix', version: '1.4.5.RELEASE'
         compile group: 'commons-io', name: 'commons-io', version: '2.6'
         compile "mysql:mysql-connector-java:8.0.8-dmr"
         compile "org.springframework:spring-core:5.0.4.RELEASE"

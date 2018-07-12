@@ -231,3 +231,32 @@ async注解
 @async是spring的一种注解，可以在方法上使用使得方法在调用时异步执行，注解到类上时类所有方法都会异步。实现原理是添加注解使得spring 在代理时使用异步执行，所以调用类内部的 @async注解方法无效，因为spring没法代理。
 
 通过设置 @async("executor") executor来设置执行线程池的bean。
+
+hystrix collapser
+---
+structure:
+HystrixRequestVariableLifecycle->HystrixRequestVariable->HystrixRequestVariableDefault->HystrixLifecycleForwardingRequestVariable
+1. HystrixRequestVariable<T>， 如 localcache 一样，但范围仅限于同一请求；
+2. HystrixRequestVariableDefault<T> 是 HystrixRequestVariable<T> 的一种实现，由 HystrixRequestContext 管理， 通过此 variable 可以获取到当前context的 state；
+3. 用户请求创建一个 HystrixRequestContext, 每个 context 里有一个 HystrixRequestVariableDefault，它有一个属性 state(ConcurrentHashMap<HystrixRequestVariableDefault, HystrixRequestVariableDefault.LazyInitializer>);
+4. context 通过 state 属性关联 hystrixRequestVariable, hystrixRequestVariable 通过当前线程的localCache 关联到 context;
+5. 有一个全局的 requestScopedCollapsers 存储所有的 HystrixRequestVariableHolder, HystrixRequestVariableHolder 用于全局存储 HystrixRequestVariable；
+
+steps:
+1. 在 AOP 内通过切点创建一个 metaHolder,使用它创建一个 collapser
+2. 在切点时，先找到 requestCollapser
+	1. 通过 collapserFactory 获取 collapser
+		1. 如果scope 是全局的，从 globalScopedCollapsers（ConcurrentHashMap<String, RequestCollapser<?, ?, ?>>）里获取collapser
+		2. 通过 requestScopedCollapsers 获取 HystrixRequestVariableHolder
+		3. 从 HystrixRequestVariableHolder 里通过 strategy 获取 HystrixRequestVariable
+		4. 从 HystrixRequestVariable 里获取 collapser
+			1. 获取当前线程scope的的 state ，从 state 里获取  collapser
+			2. 由于每个 scope 的 state 都不一样，获取的 collapser 都不一样
+2. 向 collapser 内提交请求
+	1. 判断此 collapser 是否已注册 timer, 未注册就注册一个，这个 timer 会定时扫描 batch 中的请求，创建一个合并请求发起
+	2. 向 collapser 的 batch 中添加一个请求
+3. timer 通过多个request构造一个 batchCommand 然后执行
+
+solve:
+1. 写在一个 context 里
+2. 用scope=globle, 在 hystrix 设置 scope
