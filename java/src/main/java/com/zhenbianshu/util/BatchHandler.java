@@ -13,7 +13,7 @@ import java.util.TimerTask;
 import java.util.function.Function;
 
 /**
- * created by xiepengfei on 2018/6/27
+ * created by zbs on 2018/6/27
  */
 public class BatchHandler<E> {
 
