@@ -5,23 +5,28 @@ import com.google.common.collect.Maps;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
  * created by zbs on 2018/6/27
  */
-public class BatchHandler<E> {
+public class BatchHandler<E> implements InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(BatchHandler.class);
 
     private static volatile Map<Class, BatchHandler> instance = Maps.newConcurrentMap();
 
-    private volatile List<E> batchContainer = Lists.newLinkedList(); // todo thread safe container
+    private volatile LinkedBlockingDeque<E> batchContainer = new LinkedBlockingDeque<>();
+
+    private static final ScheduledExecutorService SCHEDULE_EXECUTOR = Executors.newScheduledThreadPool(1);
 
     private volatile long lastCleanTime = System.currentTimeMillis();
 
@@ -35,21 +40,20 @@ public class BatchHandler<E> {
         this.cleaner = cleaner;
         this.threshHold = threshHold;
         this.interval = interval;
-        init();
     }
 
-    public void init() {
-        // todo thread pool schedule
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                logger.info("start to run timer clean");
-                if (System.currentTimeMillis() - lastCleanTime >= interval) {
-                    clean();
-                    logger.info("batch handler clean finished");
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // 使用 schedule 防止 timer 被阻塞
+        SCHEDULE_EXECUTOR.scheduleAtFixedRate(() -> {
+            try {
+                if (lastCleanTime - System.currentTimeMillis() > interval) {
+                    this.clean();
                 }
+            } catch (Exception e) {
+                logger.error("clean container exception", e);
             }
-        }, interval, interval);
+        }, 0, 1, TimeUnit.SECONDS);
     }
 
     public void submit(E event) {
@@ -60,10 +64,8 @@ public class BatchHandler<E> {
     }
 
     private void clean() {
-        // todo thread safe
-        List<E> transferList = batchContainer;
-        batchContainer = Lists.newLinkedList();
-        lastCleanTime = System.currentTimeMillis();
+        List<E> transferList = Lists.newArrayListWithExpectedSize(threshHold);
+        batchContainer.drainTo(transferList, 100);
 
         if (CollectionUtils.isEmpty(transferList)) {
             return;
@@ -90,7 +92,4 @@ public class BatchHandler<E> {
         return instance.get(jobClass);
     }
 
-    protected void finalize() {
-        clean();
-    }
 }
