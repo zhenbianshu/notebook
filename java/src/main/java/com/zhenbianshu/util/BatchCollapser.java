@@ -13,16 +13,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 /**
  * created by zbs on 2018/6/27
  */
-public class BatchHandler<E> implements InitializingBean {
+public class BatchCollapser<E> implements InitializingBean {
 
-    private static final Logger logger = LoggerFactory.getLogger(BatchHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(BatchCollapser.class);
 
-    private static volatile Map<Class, BatchHandler> instance = Maps.newConcurrentMap();
+    private static volatile Map<Class, BatchCollapser> instance = Maps.newConcurrentMap();
 
     private volatile LinkedBlockingDeque<E> batchContainer = new LinkedBlockingDeque<>();
 
@@ -30,13 +29,13 @@ public class BatchHandler<E> implements InitializingBean {
 
     private volatile long lastCleanTime = System.currentTimeMillis();
 
-    private Function<List<E>, Boolean> cleaner;
+    private Handler<List<E>, Boolean> cleaner;
 
     private long interval;
 
     private int threshHold;
 
-    private BatchHandler(Function<List<E>, Boolean> cleaner, int threshHold, long interval) {
+    private BatchCollapser(Handler<List<E>, Boolean> cleaner, int threshHold, long interval) {
         this.cleaner = cleaner;
         this.threshHold = threshHold;
         this.interval = interval;
@@ -72,19 +71,19 @@ public class BatchHandler<E> implements InitializingBean {
         }
 
         try {
-            cleaner.apply(transferList);
+            cleaner.handle(transferList);
         } catch (Exception e) {
             logger.error("batch execute error, transferList:{}", transferList, e);
         }
     }
 
-    public static <E> BatchHandler getInstance(Function<List<E>, Boolean> cleaner, int threshHold, long interval) {
+    public static <E> BatchCollapser getInstance(Handler<List<E>, Boolean> cleaner, int threshHold, long interval) {
 
         Class jobClass = cleaner.getClass();
         if (instance.get(jobClass) == null) {
-            synchronized (BatchHandler.class) {
+            synchronized (BatchCollapser.class) {
                 if (instance.get(jobClass) == null) {
-                    instance.put(jobClass, new BatchHandler<>(cleaner, threshHold, interval));
+                    instance.put(jobClass, new BatchCollapser<>(cleaner, threshHold, interval));
                 }
             }
         }
