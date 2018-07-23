@@ -80,5 +80,4 @@ public class BatchCollapser<E> implements InitializingBean {
 
         return instance.get(jobClass);
     }
-
 }
