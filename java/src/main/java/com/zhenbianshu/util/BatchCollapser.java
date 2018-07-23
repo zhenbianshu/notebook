@@ -20,19 +20,12 @@ import java.util.concurrent.TimeUnit;
 public class BatchCollapser<E> implements InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(BatchCollapser.class);
-
     private static volatile Map<Class, BatchCollapser> instance = Maps.newConcurrentMap();
-
-    private volatile LinkedBlockingDeque<E> batchContainer = new LinkedBlockingDeque<>();
-
     private static final ScheduledExecutorService SCHEDULE_EXECUTOR = Executors.newScheduledThreadPool(1);
 
-    private volatile long lastCleanTime = System.currentTimeMillis();
-
+    private volatile LinkedBlockingDeque<E> batchContainer = new LinkedBlockingDeque<>();
     private Handler<List<E>, Boolean> cleaner;
-
     private long interval;
-
     private int threshHold;
 
     private BatchCollapser(Handler<List<E>, Boolean> cleaner, int threshHold, long interval) {
@@ -43,16 +36,13 @@ public class BatchCollapser<E> implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        // 使用 schedule 防止 timer 被阻塞
         SCHEDULE_EXECUTOR.scheduleAtFixedRate(() -> {
             try {
-                if (lastCleanTime - System.currentTimeMillis() > interval) {
-                    this.clean();
-                }
+                this.clean();
             } catch (Exception e) {
                 logger.error("clean container exception", e);
             }
-        }, 0, 1, TimeUnit.SECONDS);
+        }, 0, interval, TimeUnit.MILLISECONDS);
     }
 
     public void submit(E event) {
