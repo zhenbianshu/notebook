@@ -260,3 +260,50 @@ steps:
 solve:
 1. 写在一个 context 里
 2. 用scope=globle, 在 hystrix 设置 scope
+
+spring aware
+---
+spring 的 aware 机制可以让bean在被代理时感知到spring 容器信息。
+如实现 `BeanNameAware` 接口后，spring 在代理 bean 时会调用接口方法传入 beanName；
+实现 `ApplicationContextAware` 接口后， bean 可以感知到所属的上下文信息。
+
+spring event
+---
+可以实现spring容器内的事件机制。
+
+自定义事件要继承 `ApplicationEvent`, 事件监听器要 实现 `ApplicationListener<E>`;
+使用 applicationContext.publishEvent(e) 来发布事件
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
