@@ -274,6 +274,22 @@ spring event
 自定义事件要继承 `ApplicationEvent`, 事件监听器要 实现 `ApplicationListener<E>`;
 使用 applicationContext.publishEvent(e) 来发布事件
 
+spring applicationContext
+---
+获取 applicationContext:
+
+- web环境下，可以从 ServletContext 获取：
+
+```
+ServletContext context = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getServletContext();
+WebApplicationContextUtils.getWebApplicationContext(context).getBean("commentService");
+(WebApplicationContext) servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+```
+- 从文件获取
+`context = new ClassPathXmlApplicationContext("applicationContext.xml");` 从当前classpath下寻找文件创建；
+`context = new FileSystemXmlApplicationContext("text.xml")` 从绝对路径下寻找文件创建；
+
+- 从bean中获取，bean class 实现 `ApplicationContextAware` 接口，bean 创建后 ，spring 会将 applicationContext 注入到 `setApplicationContext` 方法内；
 
 
 
