@@ -159,6 +159,7 @@ epoll的边缘触发(Edge Trigger)为什么要设置为非阻塞：
 父进程关闭管道A的读出端，和管道B的写入端；子进程关闭管道B的读出端和管道A的写入端；
 - `nohup command  >/dev/null  2>&1` 将命令输出扔到垃圾筒
 - 在脚本中使用`nohup comman >/dev/null 2>&1 &`开启新进程；·
+- grep xxx | while read var; do use $var; done;
 
 grep 命令：grep needel [-option] file;
 ---
