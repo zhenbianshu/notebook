@@ -287,7 +287,7 @@ WebApplicationContextUtils.getWebApplicationContext(context).getBean("commentSer
 ```
 - 从文件获取
 `context = new ClassPathXmlApplicationContext("applicationContext.xml");` 从当前classpath下寻找文件创建；
-`context = new FileSystemXmlApplicationContext("text.xml")` 从绝对路径下寻找文件创建；
+`context = new FileSystemXmlApplicationContext("file:/data1/zbs/text.xml")` 从绝对路径下寻找文件创建；
 
 - 从bean中获取，bean class 实现 `ApplicationContextAware` 接口，bean 创建后 ，spring 会将 applicationContext 注入到 `setApplicationContext` 方法内；
 
