@@ -667,3 +667,19 @@ dstat 命令
 - -p 线程状态，RUN BLK等状态
 - -t 时间输出 -T 时间戳epoch
 - --tcp/udp/ipc/vm/socket/raw/unix/lock 如名
+
+tcpdump
+---
+linux上用来抓取网络包的命令，将当前网络请求和响应的数据包保存下来供之后分析，常用命令：
+
+- -i eth0 指定网卡
+- -s 0 将包内所有数据都保存下来，默认每个包只保留68字节
+- -w file.cap 将抓包结果写到文件内
+
+表达式，通过表达式对抓到的数据包进行过滤，以大大减少要分析的包数据量。
+
+- 条件表达式 and && or || not ! ,如编程语言内的意思
+- tcp/udp 指定要抓取的包的协议类型
+- src / dst 源/目的
+- ip / host / port  IP 或端口
+示例： `tcpdump port 8383 -i lo and src host 183.14.132.117`
