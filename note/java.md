@@ -291,8 +291,44 @@ WebApplicationContextUtils.getWebApplicationContext(context).getBean("commentSer
 
 - 从bean中获取，bean class 实现 `ApplicationContextAware` 接口，bean 创建后 ，spring 会将 applicationContext 注入到 `setApplicationContext` 方法内；
 
+jstat
+---
+使用 jstat 命令查看 java 进程的当前状态，常用来查看 GC 状态。
+用法为  `jstat -type pid [interval_ms]`。
+使用 interval_ms 属性时，会每个时间间隔打印一次当前状态，pid 可以通过 `jps` 命令获取；
+type 为要查看的项目，包括：
+- gc/gcutil GC 状态，包括各个区的大小，各种 GC 的发生次数和总耗时；
+- class 查看 加载类的数量、大小及耗时；
+- gcnew/gcold 各区大小统计
+- 统计上一次 GC 发生的原因。
 
+jstack
+---
+将当前 java 进程的所有线程的状态 dump 出来，便于后续分析
 
+jstack pid >> jstack.log
+
+重点在分析过程，通过 grep 等方式查看各个线程当前栈停留的方法，总的线程数等
+
+jmap
+---
+Java 环境内置堆内存分析工具。
+
+jmap -options pid，常用 option 有：
+
+- -heap 打印堆当前使用统计信息
+- -dump,file=heap.hprof 将当前堆信息 dump 到文件
+- -clstats 统计当前类加载器及其加载类的数据
+
+jcmd
+---
+Java 内置命令，可以查看 Java 进程状态，用法为 `jcmd pid options`，常用选项：
+
+- -VM.flags 查看进程的启动虚拟机选项
+- -VM.uptime 查看当前虚拟机的启动时长
+- -VM.system_properties  打印虚拟机在系统内的上下文
+- -Thread.print 同 jstack 打印出线程栈信息
+- -GC.dump 打印出堆信息，同 jmap
 
 
 
