@@ -175,3 +175,16 @@ LVS: 工作在四层，实现和 iptables 和 netfilter 类似，工作在内核
 - RIP：Real server IP，后端服务器用于和 LVS 通信的 IP 地址
 - DIP：Director IP，LVS 用户和后端服务器通信的 IP 地址
 - CIP：Client IP，客户端 IP 地址
+
+wireshark
+---
+用 wireshark 进行网络包分析，主要在于过滤表达式。
+常用 操作符:
+- contains 内容中包含
+- eq 相等
+常用资源选择符
+- tcp.ip tcp.port http.host...
+- tcp contains xxx TCP 报文中包含XXX
+- http.request.method   http.request.uri.path 根据http请求具体过滤
+
+跟踪流： 可以在某个包上选择跟踪流，选择 TCP 或  HTTP 流可以查看此数据流的具体状况，包括握手、挥手等。
