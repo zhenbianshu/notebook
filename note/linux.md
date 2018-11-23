@@ -200,6 +200,8 @@ option为空时，默认输出整行，如 `awk '$2>4' file` 即可输出第二�
 使用 `~` 作为正则匹配符，如 awk '$2~/[0-9]/' 输出第二列为0-9的行
 可以使用 && || ! 添加复合条件
 
+在 awk 语句中使用外部变量，可以使用 -v 选项，   -v var=$outvar '{print var}'
+
 sed
 ---
 sed 可以认为是一个迭代器，迭代处理文件的每一行，并将结果输出。用法为 `sed [option] '[line_start[line_end]]function' file`
