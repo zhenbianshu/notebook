@@ -45,6 +45,14 @@ mktemp testXXX 将XXX替换为随机串，XXX最少有三个
 - `date +%s.%N` 获取`秒.纳秒`当前时间戳
 - uniq 命令常与 sort 命令共用，因为 uniq 只对相邻行进行处理；
 
+引号转义
+---
+用法： `$' \' '`，
+使用 `$' 123 \'456\' 789 '` 来输出 `123'456'789`，
+再如如 `awk -F ':' $'{"echo \'"$2"\' | cut -d \' \' -f1 | jq \'.[]|length\' "| getline xx;print xx}' test.log`
+
+输出 json 保持里面的双引号，在输出时在外层加一个单引号，如上。
+
 kill 和 kill -9:
 ---
 
@@ -199,6 +207,11 @@ option有
 option为空时，默认输出整行，如 `awk '$2>4' file` 即可输出第二列大于4的行。
 使用 `~` 作为正则匹配符，如 awk '$2~/[0-9]/' 输出第二列为0-9的行
 可以使用 && || ! 添加复合条件
+
+在 awk 里执行命令：
+`awk '{system("cmd")}'` 这样无法获取返回值。
+`awk 'cmd | getline result'` 获取到返回值并赋值给 result。
+如：`awk -F ':' $'{"echo \'"$2"\' | cut -d \' \' -f1 | jq \'.[]|length\' "| getline xx;print xx}' test.log`
 
 在 awk 语句中使用外部变量，可以使用 -v 选项，   -v var=$outvar '{print var}'
 
