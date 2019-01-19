@@ -330,6 +330,15 @@ Java 内置命令，可以查看 Java 进程状态，用法为 `jcmd pid options
 - -Thread.print 同 jstack 打印出线程栈信息
 - -GC.dump 打印出堆信息，同 jmap
 
+maven
+---
+maven scope:设置包的提供状态，包只有在一定的状态下才生效。
+
+- compile:在运行、测试、编译时都会打入包。
+- provided: 只在编译、测试时会入包，在运行时认为容器内会提供此包。
+- runtime: 只在编译、运行时会入包。
+- test: 测试相关的会入包，一般测试相关的包使用这种配置。
+- system:在编译和测试时有效，编译时跟系统相关，可移植性差。
 
 
 
