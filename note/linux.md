@@ -518,6 +518,14 @@ iptables 防火墙
 - DNAT 目标地址转换；
 - MASQUERADE IP伪装；
 - LOG 日志记录；
+#实例：
+封禁某网卡上除80端口以外其他所有端口的tcp包。
+```
+iptables -A INPUT -i eth0 -p tcp --dport 80 -j ACCEPT // 规则链是从上到下匹配的，所以先把接受流量的规则添加上
+iptables -A INPUT -i eth0 -p tcp -j REJECT // REJECT 掉其他所有端口的流量
+iptalbes -L -n --line-number // 展示所有规则
+iptables -D INPUT 1 删除 INPUT 链里第一条规则
+```
 
 内存buffer
 ---
