@@ -49,6 +49,7 @@ mktemp testXXX 将XXX替换为随机串，XXX最少有三个
 ---
 用法： `$' \' '`，
 使用 `$' 123 \'456\' 789 '` 来输出 `123'456'789`，
+使用 `$'\n'` 来输出换行符
 再如如 `awk -F ':' $'{"echo \'"$2"\' | cut -d \' \' -f1 | jq \'.[]|length\' "| getline xx;print xx}' test.log`
 
 输出 json 保持里面的双引号，在输出时在外层加一个单引号，如上。
@@ -184,6 +185,8 @@ grep 命令：grep needel [-option] file;
 - -s 不显示错误信息（如xxx是二进制文件等）；
 - -v 反向搜索，即操作不符合的行，一般用于管道过滤；
 - -w 严格匹配，即只匹配全词，hello 无法匹配到 helloyou；
+- --group-separator=$'\n' 将由 -A/B/C 等选项首先的结果组分隔符修改为 -n
+- --no-group-separator 不产生结果分隔符
 
 awk
 ---
